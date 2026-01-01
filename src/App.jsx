@@ -17,8 +17,6 @@ function App() {
   }
 
   function addEducation() {
-    if (hasEmptyItem(education)) return;
-
     const id = crypto.randomUUID();
     const newItem = { id, institution: "", title: "", date: "" };
     setEducation(getUpdatedCollection(education, newItem));
@@ -64,24 +62,6 @@ function App() {
       endDate: "",
     };
     setExperience(getUpdatedCollection(experience, newItem));
-  }
-
-  function hasEmptyItem(collection) {
-    for (const item of Object.values(collection)) {
-      if (hasAllEmptyFields(item)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  function hasAllEmptyFields(item) {
-    for (const [key, value] of Object.entries(item)) {
-      if (key === "id") continue;
-      if (value) return false;
-    }
-
-    return true;
   }
 
   return (
