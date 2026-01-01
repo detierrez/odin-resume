@@ -1,35 +1,105 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import Form from "./components/Form";
+import {
+  general as defaultGeneral,
+  education as defaultEducation,
+  experience as defaultExperience,
+} from "./data";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [general, setGeneral] = useState(defaultGeneral);
+  const [education, setEducation] = useState(defaultEducation);
+  const [experience, setExperience] = useState(defaultExperience);
+
+  function updateGeneral(event) {
+    setGeneral(getUpdatedItem(event, general).item);
+  }
+
+  function addEducation() {
+    if (hasEmptyItem(education)) return;
+
+    const id = crypto.randomUUID();
+    const newItem = { id, institution: "", title: "", date: "" };
+    setEducation(getUpdatedCollection(education, newItem));
+  }
+
+  function updateEducation(event) {
+    updateCollection(event, setEducation, education);
+  }
+
+  function updateExperience(event) {
+    updateCollection(event, setExperience, experience);
+  }
+
+  function updateCollection(event, setCollection, collection) {
+    const { id, itemPortion } = getUpdatedProperty(event);
+    const updatedItem = getUpdatedItem(collection[id], itemPortion);
+    const updatedEducation = getUpdatedCollection(collection, updatedItem);
+    setCollection(updatedEducation);
+  }
+
+  function getUpdatedCollection(collection, item) {
+    return { ...collection, [item.id]: item };
+  }
+
+  function getUpdatedItem(item, portion) {
+    return { ...item, ...portion };
+  }
+
+  function getUpdatedProperty(event) {
+    const [id, property] = event.target.id.split("_");
+    const newValue = event.target.value;
+    return { id, itemPortion: { [property]: newValue } };
+  }
+
+  function addExperience() {
+    const id = crypto.randomUUID();
+    const newItem = {
+      id,
+      company: "",
+      position: "",
+      responsibilities: "",
+      startDate: "",
+      endDate: "",
+    };
+    setExperience(getUpdatedCollection(experience, newItem));
+  }
+
+  function hasEmptyItem(collection) {
+    for (const item of Object.values(collection)) {
+      if (hasAllEmptyFields(item)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function hasAllEmptyFields(item) {
+    for (const [key, value] of Object.entries(item)) {
+      if (key === "id") continue;
+      if (value) return false;
+    }
+
+    return true;
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Form
+        {...{
+          education,
+          experience,
+          general,
+          updateGeneral,
+          addEducation,
+          updateEducation,
+          addExperience,
+          updateExperience,
+        }}
+      />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

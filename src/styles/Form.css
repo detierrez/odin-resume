@@ -1,0 +1,26 @@
+.resume input {
+  font-family: inherit;
+  field-sizing: content;
+  border: none;
+  border-radius: 0.25em;
+  padding: 0.25em 0.5rem;
+
+  background-color: transparent;
+
+  &:hover {
+    background-color: #6666;
+  }
+
+  max-width: 100vw;
+}
+
+.institution {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.group {
+  border-radius: 0.5em;
+  padding: 1em;
+  background-color: #6666;
+}
