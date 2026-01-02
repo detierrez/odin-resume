@@ -2,19 +2,19 @@ export const general = {
   name: "John Smith",
   email: "john@smith.com",
   phone: "555-555-5555",
+  website: "johnsmith.com",
 };
 
 const educationList = [
   {
     institution: "State University of Westford",
     title: "B.Sc. in Computer Science",
-    date: "2016",
+    graduationDate: "2016",
   },
-
   {
     institution: "Westford Institute of Technology",
     title: "M.Sc. in Software Engineering",
-    date: "2018",
+    graduationDate: "2018",
   },
 ];
 
@@ -45,11 +45,25 @@ export const experienceList = [
   },
 ];
 
-export const education = collectify(educationList);
-export const experience = collectify(experienceList);
+export const education = collectify("education", educationList);
+export const experience = collectify("experience", experienceList);
+export const templates = {
+  education: {
+    institution: "",
+    title: "",
+    graduationDate: "",
+  },
+  experience: {
+    company: "",
+    position: "",
+    responsibilities: "",
+    startDate: "",
+    endDate: "",
+  },
+};
 
-function collectify(list) {
-  const collection = {};
+function collectify(name, list) {
+  const collection = { name };
   for (const item of list) {
     const id = crypto.randomUUID();
     collection[id] = { ...item, id };

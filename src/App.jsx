@@ -5,36 +5,24 @@ import {
   general as defaultGeneral,
   education as defaultEducation,
   experience as defaultExperience,
+  templates,
 } from "./data";
 
 function App() {
   const [general, setGeneral] = useState(defaultGeneral);
   const [education, setEducation] = useState(defaultEducation);
   const [experience, setExperience] = useState(defaultExperience);
+  const states = {
+    education: [education, setEducation],
+    experience: [experience, setExperience],
+  };
 
-  function updateGeneral(event) {
-    setGeneral(getUpdatedItem(event, general).item);
-  }
-
-  function addEducation() {
+  function addItem(event) {
+    const { collection: collectionKey } = event.target.dataset;
+    const [collection, setCollection] = states[collectionKey];
     const id = crypto.randomUUID();
-    const newItem = { id, institution: "", title: "", date: "" };
-    setEducation(getUpdatedCollection(education, newItem));
-  }
-
-  function updateEducation(event) {
-    updateCollection(event, setEducation, education);
-  }
-
-  function updateExperience(event) {
-    updateCollection(event, setExperience, experience);
-  }
-
-  function updateCollection(event, setCollection, collection) {
-    const { id, itemPortion } = getUpdatedProperty(event);
-    const updatedItem = getUpdatedItem(collection[id], itemPortion);
-    const updatedEducation = getUpdatedCollection(collection, updatedItem);
-    setCollection(updatedEducation);
+    const newItem = { ...templates[collectionKey], id };
+    setCollection(getUpdatedCollection(collection, newItem));
   }
 
   function getUpdatedCollection(collection, item) {
@@ -45,37 +33,43 @@ function App() {
     return { ...item, ...portion };
   }
 
-  function getUpdatedProperty(event) {
-    const [id, property] = event.target.id.split("_");
+  function updateItem(event) {
     const newValue = event.target.value;
-    return { id, itemPortion: { [property]: newValue } };
+    const {
+      collection: collectionKey,
+      itemId,
+      fieldKey,
+    } = event.target.dataset;
+    const [collection, setCollection] = states[collectionKey];
+
+    const item = collection[itemId];
+    const portion = { [fieldKey]: newValue };
+    const updatedItem = getUpdatedItem(item, portion);
+    setCollection(getUpdatedCollection(collection, updatedItem));
   }
 
-  function addExperience() {
-    const id = crypto.randomUUID();
-    const newItem = {
-      id,
-      company: "",
-      position: "",
-      responsibilities: "",
-      startDate: "",
-      endDate: "",
-    };
-    setExperience(getUpdatedCollection(experience, newItem));
+  function getTrimmedCollection(collection, id) {
+    const copy = { ...collection };
+    delete copy[id];
+    return copy;
+  }
+
+  function deleteItem(event) {
+    const { collection: collectionKey, itemId } = event.target.dataset;
+    const [collection, setCollection] = states[collectionKey];
+    setCollection(getTrimmedCollection(collection, itemId));
   }
 
   return (
     <>
       <Form
         {...{
+          general,
           education,
           experience,
-          general,
-          updateGeneral,
-          addEducation,
-          updateEducation,
-          addExperience,
-          updateExperience,
+          addItem,
+          updateItem,
+          deleteItem,
         }}
       />
     </>

@@ -1,11 +1,26 @@
-import "@styles/Field.css"
+import "@styles/Field.css";
 
-export default function Field({ label, rootId, rootProperty, value, onChange }) {
-  const fieldId = `${rootId}_${rootProperty}`;
+export default function Field({
+  label,
+  collection,
+  itemId,  
+  fieldKey,
+  value,
+  onChange,
+}) {
+  const id = `${itemId}-${fieldKey}`;
   return (
     <div className="field">
-      <label htmlFor={fieldId}>{label}</label>
-      <input type="text" id={fieldId} value={value} onChange={onChange} />
+      <label htmlFor={id}>{label}</label>
+      <input
+        type="text"
+        id={id}
+        data-collection={collection}
+        data-item-id={itemId}
+        data-field-key={fieldKey}
+        value={value}
+        onChange={onChange}
+      />
     </div>
   );
 }
