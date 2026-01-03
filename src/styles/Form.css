@@ -27,7 +27,7 @@ section {
   flex-wrap: wrap;
 }
 
-.group {
+.item {
   border-radius: 0.5em;
   padding: 1em;
   margin-bottom: 1em;

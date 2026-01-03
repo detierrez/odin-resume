@@ -13,15 +13,26 @@ function App() {
   const [education, setEducation] = useState(defaultEducation);
   const [experience, setExperience] = useState(defaultExperience);
   const states = {
+    general: [general, setGeneral],
     education: [education, setEducation],
     experience: [experience, setExperience],
   };
 
   function addItem(event) {
-    const { collection: collectionKey } = event.target.dataset;
+    console.log("s");
+    
+    const { collectionKey } = event.target.dataset;
+        console.log(collectionKey);
+
     const [collection, setCollection] = states[collectionKey];
+        console.log("s");
+
     const id = crypto.randomUUID();
+        console.log("s");
+
     const newItem = { ...templates[collectionKey], id };
+        console.log("s");
+
     setCollection(getUpdatedCollection(collection, newItem));
   }
 
@@ -35,17 +46,20 @@ function App() {
 
   function updateItem(event) {
     const newValue = event.target.value;
-    const {
-      collection: collectionKey,
-      itemId,
-      fieldKey,
-    } = event.target.dataset;
-    const [collection, setCollection] = states[collectionKey];
+    const { collectionKey, itemId, fieldKey } = event.target.dataset;
 
-    const item = collection[itemId];
-    const portion = { [fieldKey]: newValue };
-    const updatedItem = getUpdatedItem(item, portion);
-    setCollection(getUpdatedCollection(collection, updatedItem));
+    if (collectionKey) {
+      const [collection, setCollection] = states[collectionKey];
+      const item = collection[itemId];
+      const portion = { [fieldKey]: newValue };
+      const updatedItem = getUpdatedItem(item, portion);
+      setCollection(getUpdatedCollection(collection, updatedItem));
+    } else {
+      const [item, setItem] = states["general"];
+      const portion = { [fieldKey]: newValue };
+      const updatedItem = getUpdatedItem(item, portion);
+      setItem(updatedItem);
+    }
   }
 
   function getTrimmedCollection(collection, id) {
@@ -55,7 +69,7 @@ function App() {
   }
 
   function deleteItem(event) {
-    const { collection: collectionKey, itemId } = event.target.dataset;
+    const { collectionKey, itemId } = event.target.dataset;
     const [collection, setCollection] = states[collectionKey];
     setCollection(getTrimmedCollection(collection, itemId));
   }

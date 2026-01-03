@@ -1,6 +1,6 @@
 import "@styles/Form.css";
-import General from "./General";
 import Collection from "./Collection";
+import Item from "./Item";
 
 export default function Form({
   general,
@@ -16,7 +16,10 @@ export default function Form({
 
   return (
     <form className="form" onSubmit={preventDefault}>
-      <General {...{ general, updateItem }} />
+      <section>
+        <h2>General</h2>
+        <Item {...{ item: general, updateItem }} />
+      </section>
       <Collection
         {...{
           collection: education,
