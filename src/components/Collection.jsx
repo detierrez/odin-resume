@@ -1,6 +1,7 @@
 import Item from "./Item";
 
 export default function Collection({
+  isEditable,
   collection,
   addItem,
   updateItem,
@@ -18,6 +19,7 @@ export default function Collection({
           <Item
             key={item.id}
             {...{
+              isEditable,
               item,
               collectionKey: collection.name,
               updateItem,
@@ -33,9 +35,11 @@ export default function Collection({
           </Item>
         );
       })}
-      <button data-collection-key={collection.name} onClick={addItem}>
-        + Add {title}
-      </button>
+      {isEditable && (
+        <button data-collection-key={collection.name} onClick={addItem}>
+          + Add {title}
+        </button>
+      )}
     </section>
   );
 }

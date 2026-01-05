@@ -6,12 +6,18 @@ import {
   education as defaultEducation,
   experience as defaultExperience,
   templates,
-} from "./data";
+} from "./modules/data";
+import Resume from "./components/Resume";
 
 function App() {
   const [general, setGeneral] = useState(defaultGeneral);
   const [education, setEducation] = useState(defaultEducation);
   const [experience, setExperience] = useState(defaultExperience);
+  const [isEditable, setIsEditable] = useState("true");
+  function toggleEditable() {
+    setIsEditable(!isEditable);
+  }
+
   const states = {
     general: [general, setGeneral],
     education: [education, setEducation],
@@ -19,20 +25,10 @@ function App() {
   };
 
   function addItem(event) {
-    console.log("s");
-    
     const { collectionKey } = event.target.dataset;
-        console.log(collectionKey);
-
     const [collection, setCollection] = states[collectionKey];
-        console.log("s");
-
     const id = crypto.randomUUID();
-        console.log("s");
-
     const newItem = { ...templates[collectionKey], id };
-        console.log("s");
-
     setCollection(getUpdatedCollection(collection, newItem));
   }
 
@@ -73,10 +69,9 @@ function App() {
     const [collection, setCollection] = states[collectionKey];
     setCollection(getTrimmedCollection(collection, itemId));
   }
-
   return (
     <>
-      <Form
+      {/* <Form
         {...{
           general,
           education,
@@ -84,6 +79,13 @@ function App() {
           addItem,
           updateItem,
           deleteItem,
+        }}
+      /> */}
+      <Resume
+        {...{
+          general,
+          education,
+          experience,
         }}
       />
     </>

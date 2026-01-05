@@ -1,20 +1,24 @@
 export const general = {
   name: "John Smith",
   email: "john@smith.com",
-  phone: "555-555-5555",
-  website: "johnsmith.com",
+  phone: "+44 3245 5521 5521",
+  website: "john.smith.com",
 };
 
 const educationList = [
   {
     institution: "State University of Westford",
     title: "B.Sc. in Computer Science",
-    graduationDate: "2016",
+    startDate: "Sep. 2012",
+    endDate: "Sep. 2016",
+    location: "Westford, MA",
   },
   {
     institution: "Westford Institute of Technology",
     title: "M.Sc. in Software Engineering",
-    graduationDate: "2018",
+    startDate: "Sep. 2016",
+    endDate: "Oct. 2018",
+    location: "Rivertown, CA",
   },
 ];
 
@@ -24,34 +28,39 @@ export const experienceList = [
     position: "Frontend Developer",
     responsibilities:
       "Built responsive React applications, improved performance, and mentored junior developers.",
-    startDate: "Jun 2021",
+    startDate: "Jun. 2021",
     endDate: "Present",
+    location: "San Francisco, CA",
   },
   {
     company: "NovaTech Labs",
     position: "Junior Web Developer",
     responsibilities:
       "Implemented features for internal tools, wrote unit tests, and participated in agile sprints.",
-    startDate: "Jan 2019",
-    endDate: "May 2021",
+    startDate: "Jan. 2019",
+    endDate: "May. 2021",
+    location: "Austin, TX",
   },
   {
     company: "PixelCraft Studio",
     position: "Frontend Intern",
     responsibilities:
       "Assisted in UI development, performed cross-browser testing, and fixed accessibility issues.",
-    startDate: "Jun 2018",
-    endDate: "Dec 2018",
+    startDate: "Jun. 2018",
+    endDate: "Dec. 2018",
+    location: "Remote",
   },
 ];
 
-export const education = collectify("education", educationList);
-export const experience = collectify("experience", experienceList);
+export const education = collectify(educationList);
+export const experience = collectify(experienceList);
 export const templates = {
   education: {
     institution: "",
     title: "",
-    graduationDate: "",
+    startDate: "",
+    endDate: "",
+    location: "",
   },
   experience: {
     company: "",
@@ -59,11 +68,12 @@ export const templates = {
     responsibilities: "",
     startDate: "",
     endDate: "",
+    location: "",
   },
 };
 
-function collectify(name, list) {
-  const collection = { name };
+function collectify(list) {
+  const collection = {};
   for (const item of list) {
     const id = crypto.randomUUID();
     collection[id] = { ...item, id };
