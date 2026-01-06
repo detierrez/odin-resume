@@ -2,7 +2,7 @@ export const general = {
   name: "John Smith",
   email: "john@smith.com",
   phone: "+44 3245 5521 5521",
-  website: "john.smith.com",
+  website: "https://john.smith.com",
 };
 
 const educationList = [

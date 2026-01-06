@@ -4,7 +4,7 @@ export default function Item2({
   startDate,
   endDate,
   location,
-  bullet,
+  bullet = ["a", "b", "c"],
 }) {
   return (
     <>
@@ -15,7 +15,13 @@ export default function Item2({
         <input className="end-date" value={endDate} />
       </div>{" "}
       <input className="location" value={location} />
-      {bullet && <textarea className="bullet">{bullet}</textarea>}
+      <ul className="bullet">
+        {bullet.map((text, idx) => (
+          <li key={idx}>
+            <input className="location" value={text} />
+          </li>
+        ))}
+      </ul>
     </>
   );
 }
