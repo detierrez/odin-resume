@@ -26,8 +26,11 @@ export const experienceList = [
   {
     company: "BrightByte Solutions",
     position: "Frontend Developer",
-    responsibilities:
-      "Built responsive React applications, improved performance, and mentored junior developers.",
+    responsibilities: [
+      "Built responsive React applications",
+      "Improved performance and optimized bundle sizes",
+      "Mentored junior developers and performed code reviews",
+    ],
     startDate: "Jun. 2021",
     endDate: "Present",
     location: "San Francisco, CA",
@@ -35,8 +38,11 @@ export const experienceList = [
   {
     company: "NovaTech Labs",
     position: "Junior Web Developer",
-    responsibilities:
-      "Implemented features for internal tools, wrote unit tests, and participated in agile sprints.",
+    responsibilities: [
+      "Implemented features for internal tools",
+      "Wrote unit and integration tests",
+      "Participated in agile sprints and sprint planning",
+    ],
     startDate: "Jan. 2019",
     endDate: "May. 2021",
     location: "Austin, TX",
@@ -44,8 +50,11 @@ export const experienceList = [
   {
     company: "PixelCraft Studio",
     position: "Frontend Intern",
-    responsibilities:
-      "Assisted in UI development, performed cross-browser testing, and fixed accessibility issues.",
+    responsibilities: [
+      "Assisted in UI development and prototyping",
+      "Performed cross-browser testing and debugging",
+      "Fixed accessibility issues and improved ARIA attributes",
+    ],
     startDate: "Jun. 2018",
     endDate: "Dec. 2018",
     location: "Remote",

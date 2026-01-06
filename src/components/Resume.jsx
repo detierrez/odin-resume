@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import "@styles/Resume2.css";
 import Item2 from "./Item2";
 
@@ -28,6 +27,10 @@ export default function Resume({ general, education, experience }) {
           <ul>
             {Object.values(education).map((item, idx) => (
               <li key={idx} className="item">
+                <span className="bullet">
+                  <button>-</button>
+                  <span>&bull;</span>
+                </span>
                 <Item2
                   {...{
                     organization: item.institution,
@@ -37,6 +40,7 @@ export default function Resume({ general, education, experience }) {
                     location: item.location,
                   }}
                 />
+                <button className="add">+</button>
               </li>
             ))}
           </ul>
@@ -59,8 +63,10 @@ export default function Resume({ general, education, experience }) {
                       startDate: item.startDate,
                       endDate: item.endDate,
                       location: item.location,
+                      tasks: item.responsibilities,
                     }}
                   />
+                  <button className="add">+</button>
                 </li>
               );
             })}
