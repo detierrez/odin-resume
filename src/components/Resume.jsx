@@ -1,78 +1,35 @@
-import "@styles/Resume2.css";
-import Item2 from "./Item2";
+import "@styles/Resume.css";
+import Item from "./Item";
+import { titleCase } from "../modules/utils";
+import { CollectionProvider } from "./CollectionContext";
+import Section from "./Section";
 
 export default function Resume({ general, education, experience }) {
   return (
     <main className="resume">
       <header>
         <h1 className="author">
-          <input type="text" className="bold" value={general.name} />
+          <input type="text" className="bold" value={general.name} readOnly />
         </h1>
         <div className="email">
-          Email: <input type="text" value={general.email} />
+          Email: <input type="text" value={general.email} readOnly />
         </div>
         <div className="website">
-          <input type="text" value={general.website} />
+          <input type="text" value={general.website} readOnly />
         </div>
         <div className="phone">
-          Phone: <input type="text" value={general.phone} />
+          Phone: <input type="text" value={general.phone} readOnly />
         </div>
       </header>
-
-      <section>
-        <h2 className="heading">
-          Education<button>+</button>
-        </h2>
-        <div className="education">
-          <ul>
-            {Object.values(education).map((item, idx) => (
-              <li key={idx} className="item">
-                <span className="bullet">
-                  <button>-</button>
-                  <span>&bull;</span>
-                </span>
-                <Item2
-                  {...{
-                    organization: item.institution,
-                    role: item.title,
-                    startDate: item.startDate,
-                    endDate: item.endDate,
-                    location: item.location,
-                  }}
-                />
-                <button className="add">+</button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section>
-        <h2 className="heading">
-          Experience<button>+</button>
-        </h2>
-        <div className="experience">
-          <ul>
-            {Object.values(experience).map((item, idx) => {
-              return (
-                <li key={idx} className="item">
-                  <Item2
-                    {...{
-                      organization: item.company,
-                      role: item.position,
-                      startDate: item.startDate,
-                      endDate: item.endDate,
-                      location: item.location,
-                      tasks: item.responsibilities,
-                    }}
-                  />
-                  <button className="add">+</button>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </section>
+      {Object.entries({ education, experience }).map(
+        ([key, collection], idx) => {
+          return (
+            <CollectionProvider key={idx} initialCollection={collection}>
+              <Section title={titleCase(key)}></Section>
+            </CollectionProvider>
+          );
+        }
+      )}
     </main>
   );
 }
