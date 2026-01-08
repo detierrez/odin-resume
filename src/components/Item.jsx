@@ -1,11 +1,14 @@
 import { useCollection, useCollectionDispatch } from "./CollectionContext";
+import Field from "./Field";
+import { useIsEditing } from "./IsEditingContext";
 
 export default function Item({ id }) {
   const collection = useCollection();
   const dispatch = useCollectionDispatch();
+  const isEditing = useIsEditing();
 
-  const { organization, role, startDate, endDate, location, tasks } =
-    collection[id];
+  const item = { ...collection[id] };
+  const tasks = item.tasks;
 
   function handleUpdateItem(event) {
     const newValue = event.target.value;
@@ -45,7 +48,7 @@ export default function Item({ id }) {
 
   function handleDeleteTask(event) {
     const idx = Number(event.target.dataset.idx);
-    console.log(idx)
+    console.log(idx);
     return dispatch({
       type: "update",
       item: {
@@ -64,68 +67,74 @@ export default function Item({ id }) {
     });
   }
 
+  const placeholders = {
+    organization: "In this organization...",
+    role: "My role was...",
+    location: "Location...",
+    startDate: "Start date...",
+    endDate: "End date...",
+  };
+
+  for (const fieldKey of Object.keys(collection[id])) {
+    if (fieldKey === "tasks") continue;
+    const addedClass =
+      fieldKey === "organization"
+        ? " bold"
+        : fieldKey === "role"
+        ? " italic"
+        : "";
+    item[fieldKey] = (
+      <Field
+        {...{
+          className: fieldKey + addedClass,
+          fieldKey,
+          value: collection[id][fieldKey],
+          placeholder: placeholders[fieldKey],
+          onChange: handleUpdateItem,
+        }}
+      />
+    );
+  }
+
   return (
     <>
       <div className="bullet">
-        <button onClick={handleDeleteItem}>×</button>
+        {isEditing && <button onClick={handleDeleteItem}>×</button>}
         <div>&bull;</div>
       </div>
-      <button className="add" onClick={handleAddTask}>
-        +
-      </button>
-      <input
-        className="organization bold"
-        data-key="organization"
-        placeholder="Organization..."
-        value={organization}
-        onChange={handleUpdateItem}
-      />
-      <input
-        className="role italic"
-        data-key="role"
-        placeholder="Role..."
-        value={role}
-        onChange={handleUpdateItem}
-      />
-      <div className="date date italic">
-        <input
-          className="start-date"
-          data-key="startDate"
-          placeholder="Start date"
-          value={startDate}
-          onChange={handleUpdateItem}
-        />{" "}
-        -{" "}
-        <input
-          className="end-date"
-          data-key="endDate"
-          placeholder="End date"
-          value={endDate}
-          onChange={handleUpdateItem}
-        />
-      </div>{" "}
-      <input
-        className="location"
-        data-key="location"
-        placeholder="Location..."
-        value={location}
-        onChange={handleUpdateItem}
-      />
+      {isEditing && (
+        <button className="add add-button" onClick={handleAddTask}>
+          +
+        </button>
+      )}
+      {item.organization}
+      {item.role}
+      {item.location}
+      <div className="date">
+        {item.startDate}- {item.endDate}
+      </div>
       {tasks && (
         <ul className="tasks">
           {tasks.map((text, idx) => (
             <li key={idx}>
               <div className="bullet">
-                <button data-idx={idx} onClick={handleDeleteTask}>×</button>
+                {isEditing && (
+                  <button data-idx={idx} onClick={handleDeleteTask}>
+                    ×
+                  </button>
+                )}
                 <div>&bull;</div>
               </div>
-              <input
-                className="task"
-                data-key="tasks"
-                data-idx={idx}
-                placeholder="Add a detail..."
-                value={text ?? ""}
-                onChange={handleUpdateItem}
+
+              <Field
+                {...{
+                  className: "task",
+                  fieldKey: "tasks",
+                  idx,
+                  value: text,
+                  placeholder: "Some detail...",
+                  onChange: handleUpdateItem,
+                }}
               />
             </li>
           ))}

@@ -1,18 +1,34 @@
+import { useState } from "react";
 import "./App.css";
-import { general, education, experience } from "./modules/data";
 import Resume from "./components/Resume";
+import { IsEditingContext } from "./components/IsEditingContext";
+import { Resetter } from "./components/Resetter";
 
 function App() {
+  const [isEditing, setIsEditing] = useState(true);
+  const [resettingKey, setResettingKey] = useState(0);
+  const [shouldUseExample, setshouldUseExample] = useState(true);
+
+  function toggleIsEditing() {
+    setIsEditing(!isEditing);
+  }
+
+  function clearData() {
+    setshouldUseExample(false)
+    setResettingKey(resettingKey + 1);
+  }
+
   return (
-    <>
-      <Resume
-        {...{
-          general,
-          education,
-          experience,
-        }}
-      />
-    </>
+    <IsEditingContext value={isEditing}>
+      <div className="menu">
+        <span>{isEditing ? "Fill in your resume... 📝" : "Done! 🎉"}</span>
+        {isEditing && <button onClick={clearData}>Clear</button>}
+        <button onClick={toggleIsEditing}>
+          {isEditing ? "✓ Looks good" : "← Go back"}
+        </button>
+      </div>
+      <Resume {...{shouldUseExample, resettingKey}} />
+    </IsEditingContext>
   );
 }
 

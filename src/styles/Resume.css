@@ -1,10 +1,10 @@
 .resume {
   --accent-color: #194b51;
-  --resume-width: 400px;
-  --stripe-width: 320px;
   --heading-bg-color: #d7e5e5;
   --hover-color: #2250ad69;
   --border-hover-color: #646cff;
+  --background-color: #fff;
+  --font-color: #000;
 }
 
 .resume header > h1 {
@@ -14,24 +14,42 @@
 
 .resume section > .heading {
   font-weight: normal;
-  border-bottom: 0.5px solid #000;
+  border-bottom: 0.5px solid var(--font-color);
 }
 
 /* Layout */
 .resume {
   aspect-ratio: calc(1 / sqrt(2));
-  width: var(--stripe-width);
+  width: var(--resume-width);
   margin: 0 auto;
 
   padding: 4em 4em 0em 4em;
   display: flex;
   flex-direction: column;
+  gap: 1em;
 }
 
 .resume header {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "author  email"
+    "website phone";
   align-items: baseline;
+
+  > .author {
+    grid-area: author;
+  }
+  > .email {
+    grid-area: email;
+  }
+  > .website {
+    grid-area: website;
+  }
+  > .phone {
+    grid-area: phone;
+  }
+
   .email,
   .phone {
     justify-self: end;
@@ -90,14 +108,30 @@
   }
 }
 
+.resume .heading {
+  margin-bottom: 0.25em;
+}
+
+.resume .item {
+  margin-bottom: 0em;
+}
+
+.resume .add-button {
+  margin-left: 0.5em;
+}
+
 /* Styling */
 .resume {
   font-family: "Times New Roman", Times, serif;
-  background-color: #ffffff;
-  color: #000;
-  font-size: 0.5rem;
 
-  border: 2px solid forestgreen;
+  color: var(--font-color);
+  background-color: var(--background-color);
+  font-size: 0.5rem;
+}
+
+.resume.editing {
+  --font-color: #eee;
+  --background-color: #292929;
 }
 
 .resume button {
@@ -114,14 +148,23 @@
   color: inherit;
   background-color: inherit;
   font-family: inherit;
+  font-weight: inherit;
+  line-height: inherit;
   border: none;
   padding: 0;
   min-width: 0;
+  display: inline;
 
   field-sizing: content;
 
   border-radius: 1px;
   outline: 1.5px solid transparent;
+}
+
+.resume span {
+  padding: 0;
+  margin: 0;
+  line-height: 0;
 }
 
 .resume ul {
@@ -131,15 +174,23 @@
   margin: 0;
 }
 
-.bold {
+.resume .bold {
   font-weight: bold;
 }
 
-.italic {
+.resume .italic {
   font-style: italic;
 }
 
 /* Interactivity */
+
+.resume {
+  transition: background-color 500ms, color 500ms;
+
+  .heading {
+    transition: border-color 500ms;
+  }
+}
 
 .resume button {
   transition: background-color 300ms, opacity 300ms;
@@ -160,7 +211,7 @@
   }
 
   &:focus {
-    outline-color: #000;
+    outline-color: var(--font-color);
   }
 }
 
@@ -174,15 +225,13 @@
   transition: opacity 200ms;
 }
 
-.resume :has(.bullet):hover > .bullet {
-  button {
-    opacity: 1;
-  }
+.resume :has(.bullet):hover > .bullet button {
+  opacity: 1;
+}
 
-  div {
-    opacity: 0;
-    visibility: hidden;
-  }
+.resume.editing :has(.bullet):hover > .bullet div {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .resume button:focus {

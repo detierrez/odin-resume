@@ -1,9 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
-import {
-  education as initialEducation,
-  experience as initialExperience,
-  createEmptyItem,
-} from "../modules/data";
+import { createEmptyItem } from "../modules/data";
 
 const CollectionContext = createContext(null);
 const CollectionDispatchContext = createContext(null);
@@ -16,11 +12,15 @@ export function useCollectionDispatch() {
   return useContext(CollectionDispatchContext);
 }
 
-export function CollectionProvider({ initialCollection, children }) {
+export function CollectionProvider({
+  initialCollection,
+  children,
+}) {
   const [collection, dispatch] = useReducer(
     collectionReducer,
     initialCollection
   );
+
   return (
     <CollectionContext value={collection}>
       <CollectionDispatchContext value={dispatch}>
@@ -54,6 +54,10 @@ function collectionReducer(collection, action) {
       return copy;
     }
 
+    case "clear": {
+      const item = createEmptyItem();
+      return { [item.id]: item };
+    }
     default:
       return collection;
   }

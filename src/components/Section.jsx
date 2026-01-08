@@ -1,9 +1,11 @@
 import { useCollection, useCollectionDispatch } from "./CollectionContext";
+import { useIsEditing } from "./IsEditingContext";
 import Item from "./Item";
 
 export default function Section({ title }) {
   const collection = useCollection();
   const dispatch = useCollectionDispatch();
+  const isEditing = useIsEditing();
 
   function addItem() {
     return dispatch({
@@ -15,7 +17,11 @@ export default function Section({ title }) {
     <section>
       <h2 className="heading">
         {title}
-        <button onClick={addItem}>+</button>
+        {isEditing && (
+          <button className="add-button" onClick={addItem}>
+            +
+          </button>
+        )}
       </h2>
       <ul>
         {Object.values(collection).map((item, idx) => (
