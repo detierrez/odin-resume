@@ -1,71 +1,73 @@
-export const general = {
-  name: "John Smith",
-  email: "john@smith.com",
-  phone: "+44 3245 5521 5521",
-  website: "https://john.smith.com",
+import { v4 as uuidv4 } from 'uuid';
+
+export const contact = {
+  author: "Ava Stardust",
+  email: "ava@stardust.io",
+  phone: "+99 7777 0000 111",
+  website: "https://stardustverse.example",
 };
 
 const educationList = [
   {
-    organization: "State University of Westford",
-    role: "B.Sc. in Computer Science",
-    startDate: "Sep. 2012",
-    endDate: "Sep. 2016",
-    location: "Westford, MA",
+    organization: "Orion Academy of Algorithms",
+    role: "B.Sc. in Arcane Systems",
+    startDate: "Sep. 2030",
+    endDate: "Jun. 2034",
+    location: "New Atlantis",
   },
-  {
-    organization: "Westford Institute of Technology",
-    role: "M.Sc. in Software Engineering",
-    startDate: "Sep. 2016",
-    endDate: "Oct. 2018",
-    location: "Rivertown, CA",
-  },
+  // {
+  //   organization: "Lunar Institute of Applied Phantasmics",
+  //   role: "M.Sc. in Temporal Interfaces",
+  //   startDate: "Sep. 2035",
+  //   endDate: "Oct. 2037",
+  //   location: "Luna Colony",
+  // },
 ];
 
 export const experienceList = [
   {
-    organization: "BrightByte Solutions",
-    role: "Frontend Developer",
+    organization: "Nebula Forge",
+    role: "Lead Holographic Interface Engineer",
     tasks: [
-      "Built responsive React applications",
-      "Improved performance and optimized bundle sizes",
-      "Mentored junior developers and performed code reviews",
+      "Designed holographic interfaces for wearable displays",
+      "Built a gesture-driven UI layer for orbital collaboration",
+      "Optimized render pipelines for zero-latency feedback",
     ],
-    startDate: "Jun. 2021",
+    startDate: "Jun. 2040",
     endDate: "Present",
-    location: "San Francisco, CA",
+    location: "Orbital Station Eos",
   },
   {
-    organization: "NovaTech Labs",
-    role: "Junior Web Developer",
+    organization: "Quantum Quill",
+    role: "Senior Timeflow Developer",
     tasks: [
-      "Implemented features for internal tools",
-      "Wrote unit and integration tests",
-      "Participated in agile sprints and sprint planning",
+      "Implemented predictive syncing for asynchronous timelines",
+      "Wrote integration tests for chronal data replication",
+      "Collaborated with research team to prototype time-safe APIs",
     ],
-    startDate: "Jan. 2019",
-    endDate: "May. 2021",
-    location: "Austin, TX",
+    startDate: "Jan. 2038",
+    endDate: "May. 2040",
+    location: "Neo Arcadia",
   },
-  {
-    organization: "PixelCraft Studio",
-    role: "Frontend Intern",
-    tasks: [
-      "Assisted in UI development and prototyping",
-      "Performed cross-browser testing and debugging",
-      "Fixed accessibility issues and improved ARIA attributes",
-    ],
-    startDate: "Jun. 2018",
-    endDate: "Dec. 2018",
-    location: "Remote",
-  },
+  // {
+  //   organization: "Lumen Labs",
+  //   role: "Holography Intern",
+  //   tasks: [
+  //     "Assisted in rapid prototyping of light-field components",
+  //     "Conducted cross-environment compatibility testing",
+  //     "Documented accessibility improvements for holo-displays",
+  //   ],
+  //   startDate: "Jun. 2037",
+  //   endDate: "Dec. 2037",
+  //   location: "Remote",
+  // },
 ];
 
 export const education = collectify(educationList);
 export const experience = collectify(experienceList);
 export function createEmptyItem() {
   return {
-    id: crypto.randomUUID(),
+    id: uuidv4(),
     organization: "",
     role: "",
     tasks: [],
@@ -78,7 +80,7 @@ export function createEmptyItem() {
 function collectify(list) {
   const collection = {};
   for (const item of list) {
-    const id = crypto.randomUUID();
+    const id = uuidv4();
     collection[id] = { ...item, id };
   }
 
