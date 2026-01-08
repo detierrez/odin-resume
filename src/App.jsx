@@ -2,7 +2,6 @@ import { useState } from "react";
 import "./App.css";
 import Resume from "./components/Resume";
 import { IsEditingContext } from "./components/IsEditingContext";
-import { Resetter } from "./components/Resetter";
 
 function App() {
   const [isEditing, setIsEditing] = useState(true);
